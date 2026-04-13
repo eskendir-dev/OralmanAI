@@ -2,73 +2,178 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Talky AI - Рабочая среда</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oralman AI — Рабочая среда преподавателя</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="app-body">
-    <div id="networkBanner" class="offline-banner hidden">⚠️ Нет подключения к интернету! Запись будет сохранена локально.</div>
 
-    <div class="glass-container">
-        <header class="app-header">
-            <h2>Рабочая панель преподавателя</h2>
-            <div class="lang-selector">
-                <label for="langSelect">Язык урока:</label>
-                <select id="langSelect" class="modern-select">
-                    <option value="ru" selected>Русский</option>
-                    <option value="kk">Қазақша</option>
-                    <option value="en">English</option>
-                    <option value="auto">Автоопределение</option>
-                </select>
-            </div>
-        </header>
+    <!-- OFFLINE BANNER -->
+    <div id="networkBanner" class="offline-banner hidden">
+        ⚠&nbsp; Отсутствует подключение к сети. Запись сохраняется локально и будет синхронизирована после восстановления соединения.
+    </div>
 
-        <div class="controls-panel">
-            <div class="upload-group">
-                <label for="docUpload">Прикрепить материалы (PDF/TXT):</label>
-                <div class="file-input-wrapper">
-                    <input type="file" id="docUpload" accept=".pdf, .txt" class="input-modern">
+    <!-- APP NAVBAR -->
+    <div class="app-topbar">
+        <div class="app-topbar-inner">
+            <div class="logo-block small">
+                <div class="logo-emblem">&#9670;</div>
+                <div class="logo-text">
+                    <span class="logo-main">ОРАЛМАН<span class="logo-accent">AI</span></span>
+                    <span class="logo-sub">Рабочая среда</span>
                 </div>
             </div>
-
-            <div class="recording-dashboard">
-                <div class="dashboard-top">
-                    <div id="recordTimer" class="timer">00:00</div>
-                    <div id="volumeWarning" class="volume-warning hidden">⚠️ Вас плохо слышно!</div>
-                </div>
-
-                <div class="visualizer-container" id="vizContainer">
-                    <canvas id="visualizer"></canvas>
-                </div>
-
-                <div class="huge-buttons-container">
-                    <button id="startBtn" class="mega-btn start">▶ НАЧАТЬ УРОК</button>
-                    <button id="pauseBtn" class="mega-btn pause hidden">⏸ ПАУЗА</button>
-                    <button id="stopBtn" class="mega-btn stop hidden">⏹ ЗАВЕРШИТЬ</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="resultSection" class="hidden">
-            <div class="action-bar">
-                <span class="section-title">Готовый конспект</span>
-                <div class="export-buttons">
-                    <button id="downloadAudioBtn" class="btn-modern audio-btn">🎵 Скачать аудио</button>
-                    <button id="copyBtn" class="btn-modern">Копировать</button>
-                    <button id="wordBtn" class="btn-modern">В Word</button>
-                    <button id="waBtn" class="btn-modern">В WhatsApp</button>
-                </div>
-            </div>
-            
-            <div id="summaryContent" class="output-box modern-scroll"></div>
-
-            <div class="edit-panel">
-                <input type="text" id="editInstruction" placeholder="ИИ-Редактор: укажите, что исправить..." class="input-modern full-width">
-                <button id="editBtn" class="btn-modern accent">Применить</button>
+            <div class="app-nav-right">
+                <a href="/main.html" class="back-link">&#8592; На главную</a>
             </div>
         </div>
     </div>
 
+    <!-- MAIN WORKSPACE -->
+    <main class="workspace">
+        <div class="workspace-inner">
+
+            <!-- PAGE TITLE -->
+            <div class="page-heading">
+                <h1>Рабочая панель преподавателя</h1>
+                <p>Модуль протоколирования и академического анализа учебного материала</p>
+                <div class="heading-rule"></div>
+            </div>
+
+            <!-- SESSION CONFIG PANEL -->
+            <div class="config-panel">
+                <div class="panel-header">
+                    <span class="panel-num">01</span>
+                    <h2>Параметры сессии</h2>
+                </div>
+                <div class="config-grid">
+                    <div class="config-field">
+                        <label for="langSelect">Язык урока</label>
+                        <select id="langSelect" class="modern-select">
+                            <option value="ru" selected>Русский</option>
+                            <option value="kk">Қазақша</option>
+                            <option value="en">English</option>
+                            <option value="auto">Автоопределение</option>
+                        </select>
+                    </div>
+                    <div class="config-field">
+                        <label for="docUpload">Прикрепить материалы (PDF / TXT)</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="docUpload" accept=".pdf,.txt" class="file-input-hidden">
+                            <button class="file-btn" onclick="document.getElementById('docUpload').click()">
+                                &#128206;&nbsp; Выбрать файл
+                            </button>
+                            <span class="file-name-display" id="fileNameDisplay">Файл не выбран</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECORDING PANEL -->
+            <div class="recording-panel">
+                <div class="panel-header">
+                    <span class="panel-num">02</span>
+                    <h2>Управление записью</h2>
+                </div>
+                <div class="recording-body">
+                    <div class="recorder-status-row">
+                        <div class="status-block">
+                            <div class="status-label">СТАТУС СЕССИИ</div>
+                            <div class="status-value" id="sessionStatus">Ожидание запуска</div>
+                        </div>
+                        <div class="status-block">
+                            <div class="status-label">ПРОДОЛЖИТЕЛЬНОСТЬ</div>
+                            <div id="recordTimer" class="timer">00:00</div>
+                        </div>
+                        <div class="status-block">
+                            <div id="volumeWarning" class="volume-warning hidden">⚠ Низкий уровень сигнала</div>
+                        </div>
+                    </div>
+                    <div class="visualizer-container" id="vizContainer">
+                        <div class="viz-label">АУДИОГРАММА</div>
+                        <canvas id="visualizer"></canvas>
+                    </div>
+                    <div class="recording-controls">
+                        <button id="startBtn" class="ctrl-btn ctrl-start">
+                            <span class="ctrl-icon">&#9654;</span>
+                            <span class="ctrl-label">НАЧАТЬ УРОК</span>
+                        </button>
+                        <button id="pauseBtn" class="ctrl-btn ctrl-pause hidden">
+                            <span class="ctrl-icon">&#9646;&#9646;</span>
+                            <span class="ctrl-label">ПАУЗА</span>
+                        </button>
+                        <button id="stopBtn" class="ctrl-btn ctrl-stop hidden">
+                            <span class="ctrl-icon">&#9632;</span>
+                            <span class="ctrl-label">ЗАВЕРШИТЬ</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULT SECTION -->
+            <div id="resultSection" class="result-panel hidden">
+                <div class="panel-header">
+                    <span class="panel-num">03</span>
+                    <h2>Академический протокол</h2>
+                </div>
+                <div class="result-body">
+                    <div class="export-toolbar">
+                        <span class="toolbar-label">Экспорт документа:</span>
+                        <div class="export-buttons">
+                            <button id="downloadAudioBtn" class="export-btn">
+                                &#127925; Аудио-протокол
+                            </button>
+                            <button id="copyBtn" class="export-btn">
+                                &#9003; Копировать
+                            </button>
+                            <button id="wordBtn" class="export-btn">
+                                &#128196; Документ Word
+                            </button>
+                            <button id="waBtn" class="export-btn">
+                                &#128172; WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-wrapper">
+                        <div class="output-header">ТЕКСТ КОНСПЕКТА</div>
+                        <div id="summaryContent" class="output-box modern-scroll"></div>
+                    </div>
+                    <div class="edit-panel">
+                        <div class="panel-header sub">
+                            <h3>ИИ-редактор</h3>
+                            <p>Введите инструкцию для корректировки академического текста</p>
+                        </div>
+                        <div class="edit-controls">
+                            <input type="text" id="editInstruction"
+                                placeholder="Например: «Добавить раздел с ключевыми терминами» или «Сократить введение»"
+                                class="input-modern">
+                            <button id="editBtn" class="ctrl-btn ctrl-edit">
+                                Применить редакцию
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="app-footer-strip">
+        <div class="container">
+            <p>&copy; 2026 Oralman AI &nbsp;|&nbsp; Программный комплекс для образовательных учреждений</p>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    <script>
+        // File input display name
+        document.getElementById('docUpload').addEventListener('change', function() {
+            const name = this.files[0] ? this.files[0].name : 'Файл не выбран';
+            document.getElementById('fileNameDisplay').textContent = name;
+        });
+    </script>
 </body>
 </html>

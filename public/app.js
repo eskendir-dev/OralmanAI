@@ -32,7 +32,6 @@ window.addEventListener('online', () => networkBanner.classList.add('hidden'));
 
 function cleanText(text) { return text.replace(/[#*|]/g, '').trim(); }
 
-// Обновленный Канвас: Неоновая свечащаяся линия
 function drawVisualizer() {
     animationId = requestAnimationFrame(drawVisualizer);
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -42,7 +41,7 @@ function drawVisualizer() {
     canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
     
     canvasCtx.lineWidth = 4; 
-    canvasCtx.strokeStyle = '#10B981'; // Изумрудный неон
+    canvasCtx.strokeStyle = '#10B981';
     canvasCtx.shadowBlur = 15;
     canvasCtx.shadowColor = '#10B981';
     canvasCtx.beginPath();
@@ -60,7 +59,6 @@ function drawVisualizer() {
     }
     canvasCtx.lineTo(canvas.width, canvas.height / 2); canvasCtx.stroke();
     
-    // Сброс тени для других отрисовок
     canvasCtx.shadowBlur = 0;
 
     let avgVolume = sum / dataArray.length;
@@ -155,7 +153,6 @@ async function processAudioData() {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'lesson.webm');
     
-    // Передаем выбранный язык на бэкенд
     formData.append('language', langSelect.value);
     
     const docFile = document.getElementById('docUpload').files[0];

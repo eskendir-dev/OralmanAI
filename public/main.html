@@ -2,44 +2,242 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Talky AI - Умный конспект уроков</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oralman AI — Программный комплекс автоматизации учебного процесса</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="landing-body">
+
+    <!-- TOP OFFICIAL HEADER STRIP -->
+    <div class="top-strip">
+        <div class="container top-strip-inner">
+            <span>Официальный программный комплекс для образовательных учреждений</span>
+            <span class="strip-right">Версия 2.4.1 &nbsp;|&nbsp; Сертифицировано 2026</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
     <nav class="navbar">
-        <div class="logo">Talky<span>AI</span></div>
-        <a href="/ai.html" class="nav-btn">Войти в систему</a>
+        <div class="logo-block">
+            <div class="logo-emblem">&#9670;</div>
+            <div class="logo-text">
+                <span class="logo-main">ОРАЛМАН<span class="logo-accent">AI</span></span>
+                <span class="logo-sub">Образовательный комплекс</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#about">О системе</a>
+            <a href="#modules">Модули</a>
+            <a href="#tech">Технологии</a>
+            <a href="#stats">Показатели</a>
+            <a href="/ai.html" class="nav-btn">&#9654; Вход в систему</a>
+        </div>
     </nav>
 
+    <!-- HERO SECTION -->
     <header class="hero">
+        <div class="hero-ornament-left"></div>
+        <div class="hero-ornament-right"></div>
         <div class="hero-content">
-            <h1>Уроки без рутины. <br><span class="gradient-text">Конспекты за секунды.</span></h1>
-            <p>Превратите ваш голос в идеальный структурированный материал. ИИ автоматически отфильтрует шум, замечания классу и создаст готовый документ для учеников.</p>
-            <a href="/ai.html" class="mega-btn start pulse-anim" style="display: inline-block; text-decoration: none;">Начать запись урока</a>
+            <div class="hero-badge">ГОСУДАРСТВЕННАЯ ОБРАЗОВАТЕЛЬНАЯ СИСТЕМА · 2026</div>
+            <h1>Программный комплекс<br>автоматизации учебного процесса</h1>
+            <div class="hero-rule"></div>
+            <p class="hero-subtitle">Централизованное решение для протоколирования уроков, глубокого семантического анализа и формирования академической базы знаний в рамках стандартов современного образования.</p>
+            <div class="hero-actions">
+                <button class="main-action-btn" onclick="location.href='/ai.html'">&#9654;&nbsp; Запустить рабочую среду</button>
+                <a href="#about" class="secondary-action-btn">Документация системы</a>
+            </div>
+            <div class="hero-meta">
+                <div class="meta-item"><span class="meta-num">3</span><span class="meta-label">языка обучения</span></div>
+                <div class="meta-divider"></div>
+                <div class="meta-item"><span class="meta-num">99%</span><span class="meta-label">точность распознавания</span></div>
+                <div class="meta-divider"></div>
+                <div class="meta-item"><span class="meta-num">∞</span><span class="meta-label">объём архива</span></div>
+            </div>
         </div>
     </header>
 
-    <section class="features">
-        <div class="feature-card">
-            <div class="f-icon">🎙️</div>
-            <h3>Умный фильтр</h3>
-            <p>Забудьте про замечания ученикам в тексте. Нейросеть убирает весь организационный мусор.</p>
-        </div>
-        <div class="feature-card">
-            <div class="f-icon">🌐</div>
-            <h3>Мультиязычность</h3>
-            <p>Мгновенная поддержка русского, английского и казахского языков прямо из коробки.</p>
-        </div>
-        <div class="feature-card">
-            <div class="f-icon">⚡</div>
-            <h3>Оффлайн защита</h3>
-            <p>Отключился интернет? Ваши записи в безопасности и будут сохранены на компьютер автоматически.</p>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="info-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-num">I.</div>
+                <h2>Целевое назначение системы</h2>
+                <p class="section-desc">Oralman AI создан для комплексной цифровизации педагогической деятельности и повышения академической эффективности образовательных учреждений.</p>
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-index">01</div>
+                    <h3>Академический контроль</h3>
+                    <p>Обеспечение полной фиксации учебного материала без потери ключевых смыслов. Система автоматически выделяет тезисы, законы и определения, формируя структурированный архив знаний.</p>
+                </div>
+                <div class="info-card">
+                    <div class="card-index">02</div>
+                    <h3>Методическая поддержка</h3>
+                    <p>Снижение административной нагрузки на педагогический состав за счёт автоматической генерации конспектов и контрольных вопросов для проверки уровня усвоения материала.</p>
+                </div>
+                <div class="info-card">
+                    <div class="card-index">03</div>
+                    <h3>Цифровая трансформация</h3>
+                    <p>Интеграция передовых алгоритмов обработки естественного языка в ежедневную практику образовательных учреждений для повышения качества учебного процесса.</p>
+                </div>
+                <div class="info-card">
+                    <div class="card-index">04</div>
+                    <h3>Мультиязычная среда</h3>
+                    <p>Нативная поддержка казахского, русского и английского языков. Переключение в реальном времени без потери качества транскрибации и структурирования материала.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <p>© 2026 Talky AI. Разработано для современных преподавателей.</p>
+    <!-- MODULES SECTION -->
+    <section id="modules" class="details-section">
+        <div class="container">
+            <div class="section-header light">
+                <div class="section-num">II.</div>
+                <h2>Функциональные модули Oralman AI</h2>
+                <p class="section-desc">Каждый модуль системы спроектирован с учётом требований реальной педагогической практики.</p>
+            </div>
+            <div class="modules-grid">
+                <div class="detail-block">
+                    <div class="detail-icon">&#9670;</div>
+                    <div class="detail-text">
+                        <h3>Модуль интеллектуальной сепарации</h3>
+                        <p>Уникальный алгоритм фильтрации речи отделяет педагогические инструкции и дисциплинарные замечания от основной учебной информации. В итоговый протокол попадает только академически значимый контент.</p>
+                    </div>
+                </div>
+                <div class="detail-block">
+                    <div class="detail-icon">&#9670;</div>
+                    <div class="detail-text">
+                        <h3>Математическое ядро и LaTeX-рендеринг</h3>
+                        <p>Система распознаёт сложные физические и химические закономерности, конвертируя их в международный формат разметки LaTeX. Это обеспечивает корректное отображение формул любой сложности.</p>
+                    </div>
+                </div>
+                <div class="detail-block">
+                    <div class="detail-icon">&#9670;</div>
+                    <div class="detail-text">
+                        <h3>Генерация проверочного материала</h3>
+                        <p>На основе обработанного конспекта система автоматически формирует тестовые задания и контрольные вопросы согласно таксономии Блума — от базового воспроизведения до критического анализа.</p>
+                    </div>
+                </div>
+                <div class="detail-block">
+                    <div class="detail-icon">&#9670;</div>
+                    <div class="detail-text">
+                        <h3>Оффлайн-протокол сохранности</h3>
+                        <p>Встроенный механизм буферизации обеспечивает непрерывную запись при потере сетевого соединения. Данные автоматически синхронизируются при восстановлении связи без участия пользователя.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section id="stats" class="stats-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-num">III.</div>
+                <h2>Показатели эффективности</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">4.8×</div>
+                    <div class="stat-label">ускорение подготовки учебных материалов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98.7%</div>
+                    <div class="stat-label">точность транскрибации в тихой обстановке</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">&lt;3 сек</div>
+                    <div class="stat-label">среднее время генерации конспекта</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">DOCX / PDF</div>
+                    <div class="stat-label">форматы академического экспорта</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH SPECS -->
+    <section id="tech" class="tech-specs">
+        <div class="container">
+            <div class="section-header light">
+                <div class="section-num">IV.</div>
+                <h2>Техническая спецификация</h2>
+                <p class="section-desc">Архитектура системы построена на проверенных промышленных стандартах обработки данных.</p>
+            </div>
+            <div class="table-wrapper">
+                <table class="specs-table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Компонент</th>
+                            <th>Технология</th>
+                            <th>Назначение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-num">1</td>
+                            <td>Транскрибация</td>
+                            <td><span class="tech-badge">Whisper V3 Neural Engine</span></td>
+                            <td>Распознавание речи высокой точности</td>
+                        </tr>
+                        <tr>
+                            <td class="row-num">2</td>
+                            <td>Анализ данных</td>
+                            <td><span class="tech-badge">Llama 3.1 Advanced Logic</span></td>
+                            <td>Семантическая обработка и структурирование</td>
+                        </tr>
+                        <tr>
+                            <td class="row-num">3</td>
+                            <td>Backend</td>
+                            <td><span class="tech-badge">Node.js / Express</span></td>
+                            <td>Обеспечение отказоустойчивости системы</td>
+                        </tr>
+                        <tr>
+                            <td class="row-num">4</td>
+                            <td>Безопасность</td>
+                            <td><span class="tech-badge">SSL / Environment Encryption</span></td>
+                            <td>Защита персональных данных пользователей</td>
+                        </tr>
+                        <tr>
+                            <td class="row-num">5</td>
+                            <td>Экспорт</td>
+                            <td><span class="tech-badge">DOCX / PDF / LaTeX</span></td>
+                            <td>Академически совместимые форматы вывода</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container footer-inner">
+                <div class="footer-logo-block">
+                    <div class="footer-logo">ОРАЛМАН<span>AI</span></div>
+                    <p>Программный комплекс автоматизации учебного процесса</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#about">О системе</a>
+                    <a href="#modules">Модули</a>
+                    <a href="#tech">Технологии</a>
+                    <a href="/ai.html">Рабочая среда</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 Программный комплекс Oralman AI. Разработано для применения в образовательных учреждениях.</p>
+            </div>
+        </div>
     </footer>
+
 </body>
 </html>

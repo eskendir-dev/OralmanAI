@@ -3,7 +3,7 @@ const multer = require('multer');
 const Groq = require('groq-sdk');
 const fs = require('fs');
 const path = require('path');
-const pdfParse = require('pdf-parse');
+const pdf = require('pdf-parse-fork');
 require('dotenv').config();
 
 const app = express();
@@ -24,19 +24,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Маршрут для главной страницы
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
 async function extractTextFromFile(filePath) {
-    const ext = path.extname(filePath).toLowerCase();
-    if (ext === '.pdf') {
-        return (await pdfParse(fs.readFileSync(filePath))).text;
-    } else if (ext === '.txt') {
-        return fs.readFileSync(filePath, 'utf8');
+    if (!fs.existsSync(filePath)) return "";
+    
+    const dataBuffer = fs.readFileSync(filePath);
+    try {
+        const parseFunc = typeof pdf === 'function' ? pdf : pdf.default;
+        
+        const data = await parseFunc(dataBuffer);
+        return data.text;
+    } catch (error) {
+        console.error("Ошибка парсинга PDF:", error);
+        return "";
     }
-    return "";
 }
 
 app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name: 'document', maxCount: 1 }]), async (req, res) => {
@@ -69,11 +73,13 @@ app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name:
 СТРУКТУРА КОНСПЕКТА:
 1. ТЕМА: (Развернутое название урока)
 2. ГЛОССАРИЙ: (Определения всех сложных терминов, прозвучавших в уроке)
-3. ПОДРОБНЫЕ ТЕЗИСЫ: (Минимум 5-7 развернутых пунктов с деталями и примерами)
-4. ФОРМУЛЫ И ЗАКОНЫ: (Используй LaTeX, например $$E = m \cdot c^2$$, и расписывай каждую букву)
-5. ПРАКТИЧЕСКИЙ ПРИМЕР: (Если был в аудио или приведи свой подходящий по теме)
+3. То что было сказано в аудио, развернутый конспект
+4. ФОРМУЛЫ И ЗАКОНЫ: (если они есть то пиши, если нет не упоминай об этом пункте)
+5. ПРАКТИЧЕСКИЙ ПРИМЕР: (Если был в аудио или приведи свой подходящий по теме (если они есть то пиши, если нет не упоминай об этом пункте))
 6. ВЫВОД: (Глубокий итог урока)
 7. ПРОВЕРКА ЗНАНИЙ: (Составь 3 сложных вопроса по теме урока для учеников)
+8. Используй терминологию высшей школы.
+9. Прежде чем писать конспект, выдели 5 ключевых концепций урока. Затем на их основе строй структуру
 
 ЗАПРЕТЫ:
 - НИКАКИХ символов #, *, ** или |. Только чистый текст.
