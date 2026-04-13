@@ -1,0 +1,90 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --brand-color: #4F46E5;
+    --brand-hover: #4338ca;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --text-main: #1f2937;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-main);
+    box-sizing: border-box;
+}
+
+/* Лендинг стили */
+.landing-body { background: var(--bg-gradient); min-height: 100vh; display: flex; flex-direction: column; }
+.navbar { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.logo { font-size: 24px; font-weight: 800; color: #111; }
+.logo span { color: var(--brand-color); }
+.nav-btn { padding: 10px 20px; background: #111; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; }
+.nav-btn:hover { background: var(--brand-color); }
+
+.hero { text-align: center; padding: 100px 20px; flex-grow: 1; }
+.hero h1 { font-size: 56px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+.gradient-text { background: linear-gradient(to right, var(--brand-color), #ec4899); -webkit-background-clip: text; color: transparent; }
+.hero p { font-size: 20px; color: #4b5563; max-width: 600px; margin: 0 auto 40px auto; line-height: 1.6; }
+
+.features { display: flex; justify-content: center; gap: 30px; padding: 50px; flex-wrap: wrap; }
+.feature-card { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 300px; transition: transform 0.3s; }
+.feature-card:hover { transform: translateY(-10px); }
+.f-icon { font-size: 40px; margin-bottom: 15px; }
+.feature-card h3 { margin: 0 0 10px 0; font-size: 22px; }
+footer { text-align: center; padding: 20px; color: #6b7280; font-weight: 600; }
+
+/* Рабочая среда (APP) стили */
+.app-body { background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); min-height: 100vh; padding: 40px 20px; }
+.glass-container { max-width: 900px; margin: 0 auto; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+.app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 20px; }
+.app-header h2 { margin: 0; font-size: 28px; font-weight: 800; }
+.lang-selector { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.modern-select { padding: 10px; border-radius: 10px; border: 2px solid #e5e7eb; font-family: inherit; font-weight: 600; outline: none; background: #fff; cursor: pointer; }
+
+.upload-group { background: #fff; padding: 20px; border-radius: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
+.upload-group label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 15px; }
+.input-modern { width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; box-sizing: border-box; font-family: inherit; transition: 0.3s; }
+.input-modern:focus { border-color: var(--brand-color); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+
+.recording-dashboard { background: #111827; padding: 30px; border-radius: 20px; color: #fff; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); margin-bottom: 30px; }
+.dashboard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.timer { font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.volume-warning { color: var(--danger); font-weight: 800; background: rgba(239, 68, 68, 0.2); padding: 5px 15px; border-radius: 20px; animation: pulse 1s infinite; }
+
+.visualizer-container { width: 100%; height: 100px; background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; margin-bottom: 30px; box-shadow: inset 0 4px 6px rgba(0,0,0,0.3); }
+#visualizer { width: 100%; height: 100%; display: block; }
+
+/* ОГРОМНЫЕ КНОПКИ УПРАВЛЕНИЯ */
+.huge-buttons-container { display: flex; gap: 20px; justify-content: center; }
+.mega-btn { flex: 1; padding: 25px; font-size: 20px; font-weight: 800; border: none; border-radius: 16px; color: white; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); }
+.mega-btn:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); }
+.mega-btn:active { transform: translateY(2px); }
+
+.mega-btn.start { background: linear-gradient(135deg, #10B981, #059669); }
+.mega-btn.pause { background: linear-gradient(135deg, #F59E0B, #D97706); }
+.mega-btn.stop { background: linear-gradient(135deg, #EF4444, #DC2626); }
+
+/* Блок результатов */
+.action-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.section-title { font-size: 22px; font-weight: 800; }
+.export-buttons { display: flex; gap: 10px; }
+.btn-modern { padding: 10px 16px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; background: #f3f4f6; color: #374151; transition: 0.2s; }
+.btn-modern:hover { background: #e5e7eb; }
+.btn-modern.accent { background: var(--brand-color); color: white; }
+.audio-btn { background: #dbeafe; color: #1e40af; }
+
+.output-box { background: #fff; border: 2px solid #e5e7eb; padding: 30px; border-radius: 16px; min-height: 200px; white-space: pre-wrap; margin-bottom: 20px; font-size: 16px; line-height: 1.6; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+.edit-panel { display: flex; gap: 15px; }
+.full-width { flex-grow: 1; }
+
+.hidden { display: none !important; }
+.offline-banner { position: fixed; top: 0; left: 0; width: 100%; background: var(--danger); color: white; text-align: center; padding: 15px; font-weight: 800; z-index: 1000; font-size: 16px; }
+
+@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+.pulse-anim { animation: pulse 2s infinite; }

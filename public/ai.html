@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Talky AI - Рабочая среда</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+    <div id="networkBanner" class="offline-banner hidden">⚠️ Нет подключения к интернету! Запись будет сохранена локально.</div>
+
+    <div class="glass-container">
+        <header class="app-header">
+            <h2>Рабочая панель преподавателя</h2>
+            <div class="lang-selector">
+                <label for="langSelect">Язык урока:</label>
+                <select id="langSelect" class="modern-select">
+                    <option value="ru" selected>Русский</option>
+                    <option value="kk">Қазақша</option>
+                    <option value="en">English</option>
+                    <option value="auto">Автоопределение</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="controls-panel">
+            <div class="upload-group">
+                <label for="docUpload">Прикрепить материалы (PDF/TXT):</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="docUpload" accept=".pdf, .txt" class="input-modern">
+                </div>
+            </div>
+
+            <div class="recording-dashboard">
+                <div class="dashboard-top">
+                    <div id="recordTimer" class="timer">00:00</div>
+                    <div id="volumeWarning" class="volume-warning hidden">⚠️ Вас плохо слышно!</div>
+                </div>
+
+                <div class="visualizer-container" id="vizContainer">
+                    <canvas id="visualizer"></canvas>
+                </div>
+
+                <div class="huge-buttons-container">
+                    <button id="startBtn" class="mega-btn start">▶ НАЧАТЬ УРОК</button>
+                    <button id="pauseBtn" class="mega-btn pause hidden">⏸ ПАУЗА</button>
+                    <button id="stopBtn" class="mega-btn stop hidden">⏹ ЗАВЕРШИТЬ</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultSection" class="hidden">
+            <div class="action-bar">
+                <span class="section-title">Готовый конспект</span>
+                <div class="export-buttons">
+                    <button id="downloadAudioBtn" class="btn-modern audio-btn">🎵 Скачать аудио</button>
+                    <button id="copyBtn" class="btn-modern">Копировать</button>
+                    <button id="wordBtn" class="btn-modern">В Word</button>
+                    <button id="waBtn" class="btn-modern">В WhatsApp</button>
+                </div>
+            </div>
+            
+            <div id="summaryContent" class="output-box modern-scroll"></div>
+
+            <div class="edit-panel">
+                <input type="text" id="editInstruction" placeholder="ИИ-Редактор: укажите, что исправить..." class="input-modern full-width">
+                <button id="editBtn" class="btn-modern accent">Применить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
