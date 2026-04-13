@@ -30,11 +30,9 @@ app.get('/', (req, res) => {
 
 async function extractTextFromFile(filePath) {
     if (!fs.existsSync(filePath)) return "";
-    
     const dataBuffer = fs.readFileSync(filePath);
     try {
         const parseFunc = typeof pdf === 'function' ? pdf : pdf.default;
-        
         const data = await parseFunc(dataBuffer);
         return data.text;
     } catch (error) {
@@ -42,6 +40,9 @@ async function extractTextFromFile(filePath) {
         return "";
     }
 }
+
+// Глобальный промпт для редактора (чтобы не дублировать)
+const editorSystemPrompt = "Ты редактор. Выполни правку текста конспекта. Не добавляй приветствий. Сохраняй структуру. Никаких символов * и #.";
 
 app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name: 'document', maxCount: 1 }]), async (req, res) => {
     try {
@@ -62,43 +63,32 @@ app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name:
         });
         fs.unlinkSync(audioPath);
 
-        const systemPrompt = `Ты — ведущий методист школы НИШ и эксперт по созданию подробных учебных материалов. 
-Твоя задача: превратить аудиозапись урока в МАКСИМАЛЬНО ПОДРОБНЫЙ и глубокий конспект.
+        const systemPrompt = `Ты — ведущий методист школы НИШ. Создай подробный академический конспект.
+        
+СТРУКТУРА:
+1. ТЕМА
+2. ГЛОССАРИЙ
+3. КОНСПЕКТ (на основе аудио)
+4. ФОРМУЛЫ (если есть)
+5. ВЫВОД
+6. ПРОВЕРКА ЗНАНИЙ (3 вопроса)
 
-ИНСТРУКЦИИ ПО ОБЪЕМУ:
-- Если тема важная, расписывай её детально.
-- Если в аудио упоминаются формулы или законы, давай их полное описание и расшифровку всех величин.
-- Очищай текст от мусора (замечания ученикам, "эээ", "откройте дверь"), но сохраняй всю учебную информацию.
-
-СТРУКТУРА КОНСПЕКТА:
-1. ТЕМА: (Развернутое название урока)
-2. ГЛОССАРИЙ: (Определения всех сложных терминов, прозвучавших в уроке)
-3. То что было сказано в аудио, развернутый конспект
-4. ФОРМУЛЫ И ЗАКОНЫ: (если они есть то пиши, если нет не упоминай об этом пункте)
-5. ПРАКТИЧЕСКИЙ ПРИМЕР: (Если был в аудио или приведи свой подходящий по теме (если они есть то пиши, если нет не упоминай об этом пункте))
-6. ВЫВОД: (Глубокий итог урока)
-7. ПРОВЕРКА ЗНАНИЙ: (Составь 3 сложных вопроса по теме урока для учеников)
-8. Используй терминологию высшей школы.
-9. Прежде чем писать конспект, выдели 5 ключевых концепций урока. Затем на их основе строй структуру
-
-ЗАПРЕТЫ:
-- НИКАКИХ символов #, *, ** или |. Только чистый текст.
-- Если в аудио была важная информация, ты ОБЯЗАН её включить.
-
+ЗАПРЕТЫ: Никаких #, *, ** или |. Только чистый структурированный текст.
 Дополнительные материалы: ${contextText ? contextText : 'отсутствуют'}.`;
 
         const completion = await groq.chat.completions.create({
             messages: [
                 { role: "system", content: systemPrompt },
-                { role: "user", content: transcription.text }
+                { role: "user", content: `Текст аудиозаписи: ${transcription.text}` }
             ],
-            model: "llama-3.1-8b-instant",
+            model: "llama-3.3-70b-versatile", // ОБНОВЛЕННАЯ МОДЕЛЬ
+            temperature: 0.6
         });
 
         res.json({ summary: completion.choices[0].message.content });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Ошибка сервера" });
+        if (!res.headersSent) res.status(500).json({ error: "Ошибка сервера" });
     }
 });
 
@@ -107,13 +97,15 @@ app.post('/api/edit', async (req, res) => {
         const { currentText, instruction } = req.body;
         const completion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: "Ты редактор. Выполни правку. Не добавляй от себя приветствий. Никаких символов * и #." },
+                { role: "system", content: editorSystemPrompt },
                 { role: "user", content: `Текст:\n${currentText}\n\nПравка: ${instruction}` }
             ],
-            model: "llama-3.1-8b-instant",
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.3
         });
         res.json({ updatedText: completion.choices[0].message.content });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Ошибка" });
     }
 });
