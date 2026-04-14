@@ -18,7 +18,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'uploads/'),
     filename: (req, file, cb) => {
-        const ext = file.fieldname === 'audio' ? '.webm' : path.extname(file.originalname);
+        const ext = file.fieldname === 'audio' ? path.extname(file.originalname || '.webm') || '.webm' : path.extname(file.originalname);
         cb(null, Date.now() + '-' + file.fieldname + ext);
     }
 });
@@ -30,6 +30,11 @@ app.get('/', (req, res) => {
 
 async function extractTextFromFile(filePath) {
     if (!fs.existsSync(filePath)) return "";
+
+    if (path.extname(filePath).toLowerCase() === '.txt') {
+        return fs.readFileSync(filePath, 'utf8');
+    }
+
     const dataBuffer = fs.readFileSync(filePath);
     try {
         const parseFunc = typeof pdf === 'function' ? pdf : pdf.default;
@@ -51,6 +56,10 @@ app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name:
             const docPath = req.files['document'][0].path;
             contextText = await extractTextFromFile(docPath);
             fs.unlinkSync(docPath); 
+        }
+
+        if (!req.files['audio'] || !req.files['audio'][0]) {
+            return res.status(400).json({ error: "Аудиофайл не передан" });
         }
 
         const audioPath = req.files['audio'][0].path;
@@ -81,7 +90,7 @@ app.post('/api/generate', upload.fields([{ name: 'audio', maxCount: 1 }, { name:
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `Текст аудиозаписи: ${transcription.text}` }
             ],
-            model: "llama-3.3-70b-versatile", // ОБНОВЛЕННАЯ МОДЕЛЬ
+            model: "llama-3.3-70b-versatile",
             temperature: 0.6
         });
 

@@ -10,12 +10,10 @@
 </head>
 <body class="app-body">
 
-    <!-- OFFLINE BANNER -->
     <div id="networkBanner" class="offline-banner hidden">
         ⚠&nbsp; Отсутствует подключение к сети. Запись сохраняется локально и будет синхронизирована после восстановления соединения.
     </div>
 
-    <!-- APP NAVBAR -->
     <div class="app-topbar">
         <div class="app-topbar-inner">
             <div class="logo-block small">
@@ -31,18 +29,15 @@
         </div>
     </div>
 
-    <!-- MAIN WORKSPACE -->
     <main class="workspace">
         <div class="workspace-inner">
 
-            <!-- PAGE TITLE -->
             <div class="page-heading">
                 <h1>Рабочая панель преподавателя</h1>
                 <p>Модуль протоколирования и академического анализа учебного материала</p>
                 <div class="heading-rule"></div>
             </div>
 
-            <!-- SESSION CONFIG PANEL -->
             <div class="config-panel">
                 <div class="panel-header">
                     <span class="panel-num">01</span>
@@ -58,6 +53,7 @@
                             <option value="auto">Автоопределение</option>
                         </select>
                     </div>
+
                     <div class="config-field">
                         <label for="docUpload">Прикрепить материалы (PDF / TXT)</label>
                         <div class="file-input-wrapper">
@@ -68,10 +64,20 @@
                             <span class="file-name-display" id="fileNameDisplay">Файл не выбран</span>
                         </div>
                     </div>
+
+                    <div class="config-field">
+                        <label for="audioUpload">Загрузить готовую аудиозапись</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="audioUpload" accept="audio/*,.webm,.mp3,.wav,.m4a,.ogg" class="file-input-hidden">
+                            <button class="file-btn" onclick="document.getElementById('audioUpload').click()">
+                                &#127911;&nbsp; Выбрать аудиофайл
+                            </button>
+                            <span class="file-name-display" id="audioFileNameDisplay">Аудиофайл не выбран</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- RECORDING PANEL -->
             <div class="recording-panel">
                 <div class="panel-header">
                     <span class="panel-num">02</span>
@@ -112,7 +118,6 @@
                 </div>
             </div>
 
-            <!-- RESULT SECTION -->
             <div id="resultSection" class="result-panel hidden">
                 <div class="panel-header">
                     <span class="panel-num">03</span>
@@ -160,7 +165,6 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <div class="app-footer-strip">
         <div class="container">
             <p>&copy; 2026 Oralman AI &nbsp;|&nbsp; Программный комплекс для образовательных учреждений</p>
@@ -169,10 +173,14 @@
 
     <script src="app.js"></script>
     <script>
-        // File input display name
         document.getElementById('docUpload').addEventListener('change', function() {
             const name = this.files[0] ? this.files[0].name : 'Файл не выбран';
             document.getElementById('fileNameDisplay').textContent = name;
+        });
+
+        document.getElementById('audioUpload').addEventListener('change', function() {
+            const name = this.files[0] ? this.files[0].name : 'Аудиофайл не выбран';
+            document.getElementById('audioFileNameDisplay').textContent = name;
         });
     </script>
 </body>

@@ -70,10 +70,32 @@ function drawVisualizer() {
 }
 
 function triggerAudioDownload() {
+    if (!audioUrl) return;
     const a = document.createElement('a');
     a.href = audioUrl;
     a.download = `Запись_урока_${new Date().toLocaleDateString()}.webm`;
     a.click();
+}
+
+async function uploadAndGenerateFromAudioFile(selectedAudioFile) {
+    resultSection.classList.remove('hidden');
+    summaryContent.innerHTML = "<strong>ИИ анализирует выбранный аудиофайл. Ожидайте...</strong>";
+
+    const formData = new FormData();
+    formData.append('audio', selectedAudioFile, selectedAudioFile.name || 'lesson-upload.webm');
+    formData.append('language', langSelect.value);
+
+    const docFile = document.getElementById('docUpload').files[0];
+    if (docFile) formData.append('document', docFile);
+
+    try {
+        if (!navigator.onLine) throw new Error("Offline");
+        const response = await fetch('/api/generate', { method: 'POST', body: formData });
+        const data = await response.json();
+        summaryContent.innerText = cleanText(data.summary || "Ошибка сервера");
+    } catch (e) {
+        summaryContent.innerText = "Нет соединения. Подключите интернет и выберите аудиофайл снова для обработки.";
+    }
 }
 
 startBtn.onclick = async () => {
@@ -164,10 +186,22 @@ async function processAudioData() {
         const data = await response.json();
         summaryContent.innerText = cleanText(data.summary || "Ошибка сервера");
     } catch (e) {
-        summaryContent.innerText = "❌ Соединение прервано! Файл сохранен. Нажмите 'Скачать аудио' и загрузите его позже.";
+        summaryContent.innerText = "Соединение прервано! Файл сохранен. Нажмите 'Скачать аудио' и загрузите его позже.";
         triggerAudioDownload();
     }
 }
+
+document.getElementById('audioUpload').addEventListener('change', async function () {
+    const selectedAudioFile = this.files && this.files[0] ? this.files[0] : null;
+    if (!selectedAudioFile) return;
+
+    audioBlob = selectedAudioFile;
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    audioUrl = URL.createObjectURL(selectedAudioFile);
+    downloadAudioBtn.onclick = triggerAudioDownload;
+
+    await uploadAndGenerateFromAudioFile(selectedAudioFile);
+});
 
 document.getElementById('editBtn').onclick = async () => {
     const instruction = document.getElementById('editInstruction').value;
@@ -192,3 +226,31 @@ document.getElementById('wordBtn').onclick = () => {
     const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(['\ufeff', html], { type: 'application/msword' }));
     link.download = 'Конспект_Урока.doc'; link.click();
 };
+document.getElementById('audioUpload').addEventListener('change', async function () {
+    const selectedAudioFile = this.files && this.files[0] ? this.files[0] : null;
+    if (!selectedAudioFile) return;
+
+    resultSection.classList.remove('hidden');
+    summaryContent.innerHTML = "<strong>ИИ анализирует выбранный аудиофайл. Ожидайте...</strong>";
+
+    audioBlob = selectedAudioFile;
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    audioUrl = URL.createObjectURL(selectedAudioFile);
+    downloadAudioBtn.onclick = triggerAudioDownload;
+
+    const formData = new FormData();
+    formData.append('audio', selectedAudioFile, selectedAudioFile.name || 'lesson-upload.webm');
+    formData.append('language', langSelect.value);
+
+    const docFile = document.getElementById('docUpload').files[0];
+    if (docFile) formData.append('document', docFile);
+
+    try {
+        if (!navigator.onLine) throw new Error("Offline");
+        const response = await fetch('/api/generate', { method: 'POST', body: formData });
+        const data = await response.json();
+        summaryContent.innerText = cleanText(data.summary || "Ошибка сервера");
+    } catch (e) {
+        summaryContent.innerText = "Нет соединения. Подключите интернет и выберите аудиофайл снова.";
+    }
+});
